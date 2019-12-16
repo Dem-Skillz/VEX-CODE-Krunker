@@ -1,14 +1,10 @@
 #include "robot-config.h"
 void reverse(){
- Top_right.spin(directionType::rev);
- Top_left.spin(directionType::rev);
  Bottom_left.spin(directionType::rev);
  Bottom_right.spin(directionType::rev);
 }
 void forward(){
- Top_right.spin(directionType::fwd);
- Top_left.spin(directionType::fwd);
- Bottom_left.spin(directionType::fwd);
+  Bottom_left.spin(directionType::fwd);
  Bottom_right.spin(directionType::fwd);
 }
 void sleep(){
@@ -16,18 +12,16 @@ void sleep(){
 }
 void right(){
  Bottom_left.spin(directionType::rev);
- Top_left.spin(directionType::rev);   
+    
  Bottom_right.spin(directionType::fwd);
- Top_right.spin(directionType::fwd);   
+    
 }
 void left(){
  Bottom_left.spin(directionType::fwd);
- Top_left.spin(directionType::fwd);   
+    
  Bottom_right.spin(directionType::rev);
- Top_right.spin(directionType::rev);   
+    
 }
-
-
 int main()
 {
   
@@ -36,39 +30,24 @@ void autonomous( void )
 {
 reverse();
 sleep();
-    
-forward();
-//outake
-Brush1.setVelocity(100, velocityUnits::pct);
-Brush2.setVelocity(100, velocityUnits::pct);
-Brush1.spin(directionType::rev);
-Brush2.spin(directionType::rev);
-    
+forward();  
 sleep();
-  
-right();
 }
-
 void usercontrol( ){
-
     while(true)
     {
-        Top_left.spin(directionType::fwd, Controller1.Axis3.value(), velocityUnits::pct);
+       
         Bottom_left.spin(directionType::fwd, Controller1.Axis3.value(), velocityUnits::pct);
-        Top_right.spin(directionType::fwd, Controller1.Axis2.value(), velocityUnits::pct);
         Bottom_right.spin(directionType::fwd, Controller1.Axis2.value(), velocityUnits::pct);
-    
-        
         if(Controller1.ButtonR1.pressing()) {
-        //outake
+        //intake
         Brush1.setVelocity(100, velocityUnits::pct);
         Brush2.setVelocity(100, velocityUnits::pct);
         Brush1.spin(directionType::rev);
         Brush2.spin(directionType::rev);
         }
-               
         else if(Controller1.ButtonL1.pressing())  {
-        //intake
+        //outake
         Brush1.setVelocity(50, velocityUnits::pct);
         Brush2.setVelocity(50, velocityUnits::pct);
         Brush1.spin(directionType::fwd);
@@ -79,22 +58,21 @@ void usercontrol( ){
         Brush1.stop(brakeType::brake);
         Brush2.stop(brakeType::brake);
         }
-        
-        
-        
-
+        //push mechanizm stuff
         if(Controller1.ButtonA.pressing()) {
         Push_mechanism.setVelocity(50, velocityUnits::pct);
         Push_mechanism.spin(directionType::fwd);
         Push_mechanism2.setVelocity(50, velocityUnits::pct);
         Push_mechanism2.spin(directionType::fwd);
         }
+        //other push mechanizm stuff
         else if(Controller1.ButtonB.pressing()) {
         Push_mechanism.setVelocity(50, velocityUnits::pct);
         Push_mechanism.spin(directionType::rev);
         Push_mechanism2.setVelocity(50, velocityUnits::pct);
         Push_mechanism2.spin(directionType::rev);
         }
+        //to stop
         else 
         {
             Push_mechanism.stop(brakeType::brake);
