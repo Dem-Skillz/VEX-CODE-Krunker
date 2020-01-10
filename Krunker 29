@@ -3,25 +3,38 @@ void reverse(){
  Bottom_left.spin(directionType::rev);
  Bottom_right.spin(directionType::rev);
 }
+
+
+
 void forward(){
-  Bottom_left.spin(directionType::fwd);
+ Bottom_left.spin(directionType::fwd);
  Bottom_right.spin(directionType::fwd);
 }
+
+
+
 void sleep(){
-    task::sleep(2000);
+    task::sleep(12000);
 }
+
+
+
 void right(){
  Bottom_left.spin(directionType::rev);
-    
- Bottom_right.spin(directionType::fwd);
-    
+ Bottom_right.spin(directionType::fwd);  
 }
+
+
+
 void left(){
- Bottom_left.spin(directionType::fwd);
-    
+ Bottom_left.spin(directionType::fwd);  
  Bottom_right.spin(directionType::rev);
-    
 }
+
+
+
+    
+
 int main()
 {
   
@@ -30,8 +43,6 @@ void autonomous( void )
 {
 reverse();
 sleep();
-forward();  
-sleep();
 }
 void usercontrol( ){
     while(true)
@@ -39,46 +50,72 @@ void usercontrol( ){
        
         Bottom_left.spin(directionType::fwd, Controller1.Axis3.value(), velocityUnits::pct);
         Bottom_right.spin(directionType::fwd, Controller1.Axis2.value(), velocityUnits::pct);
-        if(Controller1.ButtonR1.pressing()) {
+        
+        
+        if(Controller1.ButtonL1.pressing()) {
         //intake
-        Brush1.setVelocity(100, velocityUnits::pct);
-        Brush2.setVelocity(100, velocityUnits::pct);
-        Brush1.spin(directionType::rev);
-        Brush2.spin(directionType::rev);
-        }
-        else if(Controller1.ButtonL1.pressing())  {
-        //outake
-        Brush1.setVelocity(50, velocityUnits::pct);
-        Brush2.setVelocity(50, velocityUnits::pct);
-        Brush1.spin(directionType::fwd);
-        Brush2.spin(directionType::fwd);
+        Claw.setVelocity(100, velocityUnits::pct);
+        Claw.spin(directionType::fwd);
         }
         
-        else {
-        Brush1.stop(brakeType::brake);
-        Brush2.stop(brakeType::brake);
+        
+        
+        else if(Controller1.ButtonR1.pressing())  {
+        //outake
+        Claw.setVelocity(100, velocityUnits::pct);
+        Claw.spin(directionType::rev);
         }
+        
+        
+        
+        else {
+        Claw.stop(brakeType::brake);
+        }
+        
+        
+        
         //push mechanizm stuff
-        if(Controller1.ButtonA.pressing()) {
+        if(Controller1.ButtonL2.pressing()) {
         Push_mechanism.setVelocity(50, velocityUnits::pct);
         Push_mechanism.spin(directionType::fwd);
         Push_mechanism2.setVelocity(50, velocityUnits::pct);
         Push_mechanism2.spin(directionType::fwd);
         }
+        
+        
+        
         //other push mechanizm stuff
-        else if(Controller1.ButtonB.pressing()) {
+        else if(Controller1.ButtonR2.pressing()) {
         Push_mechanism.setVelocity(50, velocityUnits::pct);
         Push_mechanism.spin(directionType::rev);
         Push_mechanism2.setVelocity(50, velocityUnits::pct);
         Push_mechanism2.spin(directionType::rev);
         }
+        
+        
+        
         //to stop
         else 
         {
             Push_mechanism.stop(brakeType::brake);
-            Push_mechanism.stop(brakeType::brake);
+            Push_mechanism2.stop(brakeType::brake);
+            
         }
-                     
+        
+        //to flip cube up
+        if(Controller1.ButtonX.pressing()){
+        Rotator.setVelocity(100, velocityUnits::pct);    
+        Rotator.spin(directionType::fwd); 
+        }
+        //to flip cube down
+        if(Controller1.ButtonB.pressing()){
+        Rotator.setVelocity(100, velocityUnits::pct);
+        Rotator.spin(directionType::rev);    
+        }
+        
+        
+        
+         
    }
 }
     
